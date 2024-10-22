@@ -40,16 +40,16 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 ## Tech Stack:
 
 ### Frontend (Web):
-- React.js / Vue.js
+- React.js
 
 ### Frontend (App):
-- Flutter / React Native
+- Kotlin
 
 ### Backend:
-- Node.js / Python (Django)
+- Go
 
 ### Database:
-- MongoDB / PostgreSQL
+- MySQL
 
 ### Notifications:
-- Twilio / Firebase Cloud Messaging
+- Firebase Cloud Messaging
