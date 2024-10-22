@@ -54,7 +54,7 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 ### Notifications:
 - Firebase Cloud Messaging
 
-##Structure of App
+## Structure of App
 
 ```
 ├──   src
@@ -119,7 +119,9 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 |        └── MainActivity.kt                        // Main Activity - Entry point for Android
 ```
 
-##Structure of Website
+
+
+## Structure of Website
 
 ```
 ├──   src
