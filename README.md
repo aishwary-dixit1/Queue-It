@@ -56,6 +56,7 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 
 ##Structure of App
 
+```
 ├──   src
 |        ├── common
 |        |         ├── AsyncImageLoader.kt          // Handles asynchronous image loading for the app
@@ -116,10 +117,11 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 |        ├── AppViewModel.kt                        // Global ViewModel for managing app-wide states
 |        ├── QueueItApplication.kt                  // Application class
 |        └── MainActivity.kt                        // Main Activity - Entry point for Android
-
+```
 
 ##Structure of Website
 
+```
 ├──   src
 |        ├── components
 |        |         ├── AsyncImageLoader.js          // Component for asynchronous image loading
@@ -190,3 +192,4 @@ QueueIt is a web and mobile platform designed to revolutionize how people and bu
 |        ├── AppProvider.js                         // Context provider wrapping the entire app
 |        ├── index.js                               // Main entry point for the website
 |        └── index.html                             // Root HTML file for the website
+```
