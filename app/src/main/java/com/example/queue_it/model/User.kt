@@ -5,6 +5,6 @@ data class User (
     val email : String,
     val password : String,
     val phoneNumber : Long,
-    val business_id : Int,
-    val customer_id : Int,
+    val business_id : Business?,
+    val customer_id : Customer?,
 )

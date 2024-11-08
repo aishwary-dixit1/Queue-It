@@ -11,29 +11,31 @@ import androidx.compose.ui.unit.sp
 import com.example.queue_it.R
 
 
-val provider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs
+
+
+
+val varelafontFamily = FontFamily(
+    androidx.compose.ui.text.font.Font(R.font.varelaroundregular),
 )
 
-val fontName = GoogleFont("Montserrat")
-
-val fontFamily = FontFamily(
-    Font(
-        googleFont = fontName,
-        fontProvider = provider
-    )
-)
-// Set of Material typography styles to start with
+// Set of Material typography styles tostart with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = fontFamily,
+        fontFamily = varelafontFamily, // Use varelafontFamily here
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     )
+// Set of Material typography styles to start with
+//val Typography = Typography(
+//    bodyLarge = TextStyle(
+//        fontFamily = varelafontFamilyontfamily,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 16.sp,
+//        lineHeight = 24.sp,
+//        letterSpacing = 0.5.sp
+//    )
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,

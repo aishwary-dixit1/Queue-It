@@ -1,7 +1,8 @@
-package com.example.queue_it.common
+package com.example.queue_it.commonUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,36 +26,34 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.queue_it.R
 import com.example.queue_it.model.EventDetails
 
 @Composable
-fun EventsScreen(
+fun EventsListScroll(
     eventCategory: String,
     eventsList: List<EventDetails>
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
-            .padding(top = 24.dp),
-        verticalArrangement = Arrangement.Top
+        modifier = Modifier
+            .padding(top = 24.dp)
     ) {
         Text(
             text = eventCategory,
-            modifier = Modifier.padding( start = 16.dp),
+            modifier = Modifier.padding(start = 16.dp),
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
         )
 
-        LazyRow(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(eventsList) { event ->
-                EventCard(event)
+            LazyRow(
+                modifier = Modifier.padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(eventsList) { event ->
+                    EventCard(event)
+                }
             }
-        }
     }
 }
 
@@ -119,20 +117,4 @@ fun EventCard(event: EventDetails) {
     }
 }
 
-
-//@Composable
-//fun LaughterTherapyScreen() {
-//    EventsScreen(
-//        eventCategory = "Laughter Therapy",
-//        eventsList = laughterTherapyEvents
-//    )
-//}
-//
-//@Composable
-//fun MusicConcertScreen() {
-//    EventsScreen(
-//        eventCategory = "Music Concerts",
-//        eventsList = musicConcertEvents
-//    )
-//}
 

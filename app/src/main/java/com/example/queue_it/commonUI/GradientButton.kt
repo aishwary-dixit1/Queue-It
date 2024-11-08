@@ -1,4 +1,4 @@
-package com.example.queue_it.common
+package com.example.queue_it.commonUI
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,14 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.Alignment
-import com.example.queue_it.theme.fontFamily
+import com.example.queue_it.theme.varelaRoundFontfamily
 
 @Composable
 fun GradientButton(
@@ -56,6 +54,7 @@ fun GradientButton(
             text = text,
             fontSize = textSize.sp,
             fontWeight = FontWeight.Bold,
+            fontFamily = varelaRoundFontfamily,
             color = Color.White,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )

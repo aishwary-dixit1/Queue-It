@@ -1,4 +1,10 @@
 package com.example.queue_it.model
 
-class Ticket {
-}
+import java.sql.Timestamp
+
+class Ticket(
+    val ticketId: Int,
+    val entrantId: Int,
+    val columnId: Columns?,
+    val expectedWaitTime: Timestamp
+)
