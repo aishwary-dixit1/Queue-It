@@ -28,7 +28,7 @@ import com.example.queue_it.ui.home.HomeViewModel
 import com.example.queue_it.ui.notifications.NotificationScreen
 import com.example.queue_it.ui.notifications.NotificationViewModel
 import com.example.queue_it.ui.profile.ProfileScreen
-import com.example.queue_it.ui.profile.ProfileViewModel
+import com.example.queue_it.ui.profile.ProfileScreenViewModel
 import com.example.queue_it.ui.queue.QueueScreen
 import com.example.queue_it.ui.queue.QueueViewModel
 
@@ -65,7 +65,7 @@ fun MainScreen(navController: NavHostController) {
         ) {
             composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel(), modifier = Modifier, navController = navController) }
             composable(Screen.Queues.route) { QueueScreen(viewModel = QueueViewModel()) }
-            composable(Screen.Profile.route) { ProfileScreen(viewModel = ProfileViewModel()) }
+            composable(Screen.Profile.route) { ProfileScreen(viewModel = ProfileScreenViewModel()) }
             composable(Screen.Notification.route) { NotificationScreen(viewModel = NotificationViewModel())}
         }
     }

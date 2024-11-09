@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.queue_it.commonUI.GradientButton
-import com.example.queue_it.ui.profile.ProfileViewModel
 
 @Composable
 fun NotificationScreen(viewModel: NotificationViewModel) {
