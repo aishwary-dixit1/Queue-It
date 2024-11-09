@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
 import com.example.queue_it.commonUI.GradientButton
@@ -26,9 +25,7 @@ import com.example.queue_it.model.Category
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
-    modifier: Modifier = Modifier, // Optional modifier for flexibility in UI composition
-    navController: NavController // Navigation controller for managing navigation within the app
+    viewModel: HomeViewModel
 ) {
     // Observing UI state from the ViewModel
     val uiState by viewModel.uiState.collectAsState()
@@ -207,5 +204,5 @@ fun GetStartedButton() {
 @Composable
 fun HomeScreenPreview() {
     val navController = rememberNavController() // Initializing a NavController for preview
-    HomeScreen(viewModel = HomeViewModel(), modifier = Modifier, navController = navController)
+    HomeScreen(viewModel = HomeViewModel())
 }

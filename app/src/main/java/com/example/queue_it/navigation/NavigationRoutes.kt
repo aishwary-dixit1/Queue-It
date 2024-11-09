@@ -60,8 +60,3 @@ data class Screen(
     }
 }
 
-//sealed class Screen(val route: String) {
-//    object Home : Screen("home")
-//    object Queues : Screen("queues")
-//    object Profile : Screen("profile")
-//}

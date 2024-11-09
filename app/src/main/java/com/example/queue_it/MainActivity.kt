@@ -5,17 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -63,7 +58,7 @@ fun MainScreen(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
                 .background(color = Color.Black)
         ) {
-            composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel(), modifier = Modifier, navController = navController) }
+            composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel()) }
             composable(Screen.Queues.route) { QueueScreen(viewModel = QueueViewModel()) }
             composable(Screen.Profile.route) { ProfileScreen(viewModel = ProfileScreenViewModel()) }
             composable(Screen.Notification.route) { NotificationScreen(viewModel = NotificationViewModel())}

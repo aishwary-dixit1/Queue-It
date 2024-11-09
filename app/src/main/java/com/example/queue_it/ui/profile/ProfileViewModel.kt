@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 object SampleData {
     val sampleUser = User(
         id = 1,
-        name = "Chacha",
-        email = "arey.OOH.chacha@example.com",
+        name = "Aish",
+        email = "aish@example.com",
         password = "password123",
         phoneNumber = 6969696969,
-        age = 72,
-        gender = "Tharki",
+        age = 20,
+        gender = "Male",
         business_id = null,
         customer_id = null
     )
@@ -118,11 +118,11 @@ class ProfileScreenViewModel(
                     )
                 } ?: run {
                     _uiState.value = ProfileUiState(
-                        name = "Chacha",
-                        email = "arey.OOH.chacha@example.com",
+                        name = "Aish",
+                        email = "aish@example.com",
                         phoneNumber = "6969696969",
-                        age = 72,
-                        gender = "Tharki",
+                        age = 20,
+                        gender = "Male",
                         events = sampleEvents
                     )
                 }
