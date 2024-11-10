@@ -7,6 +7,23 @@ data class Screen(
     val location: String
 ) {
     companion object {
+        val Onboarding = Screen(
+            route = "onboarding",
+            title = "Onboarding",
+            location = "Onboarding"
+        )
+
+        val Signup = Screen(
+            route = "signup",
+            title = "Signup",
+            location = "Signup"
+        )
+
+        val Login = Screen(
+            route = "login",
+            title = "Login",
+            location = "Login"
+        )
         val Home = Screen(
             route = "home",
             title = "Home",

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
+import com.example.queue_it.commonUI.BottomNav
 import com.example.queue_it.commonUI.GradientButton
 import com.example.queue_it.commonUI.HeaderNav
 import com.example.queue_it.commonUI.ImageCards
@@ -110,6 +112,7 @@ fun HomeScreen(
                     CategoriesGrid(categories = uiState.categories)
                 }
             }
+
         }
 
         // Floating Action Button (FAB) for additional actions, such as showing current status
