@@ -35,11 +35,11 @@ fun BottomNav(
     NavigationBar(
         modifier = modifier
             .fillMaxWidth()
-            .padding(0.dp)
+            .padding(start = 8.dp, end = 8.dp)
             .wrapContentSize(align = Alignment.BottomCenter)
-            .height(100.dp)
+            .height(75.dp)
             .clip(RoundedCornerShape(16.dp)),
-        containerColor = Color(0xFF2A2A2A)
+        containerColor = Color(0xFF222222)
     ) {
         // Home Navigation Item
         NavigationBarItem(
@@ -47,11 +47,10 @@ fun BottomNav(
                 Icon(
                     imageVector = Icons.Default.Home,
                     contentDescription = "Home",
-                    modifier = Modifier.size(30.dp),
-                    tint = Color(0xFF1E88E5)
+                    modifier = Modifier.size(30.dp)
                 )
             },
-            label = { Text("Home", color = Color(0xFF1E88E5)) },
+            label = { Text("Home") },
             selected = navController.currentDestination?.route == Screen.Home.route,
             onClick = { navController.navigate(Screen.Home.route) },
             colors = NavigationBarItemDefaults.colors(
@@ -67,12 +66,11 @@ fun BottomNav(
                 Icon(
                     imageVector = Icons.Default.DateRange,
                     contentDescription = "Queues",
-                    modifier = Modifier.size(30.dp),
-                    tint = Color(0xFF1E88E5)
+                    modifier = Modifier.size(30.dp)
 
                 )
             },
-            label = { Text("Queues", color = Color(0xFF1E88E5)) },
+            label = { Text("Queues") },
             selected = navController.currentDestination?.route == Screen.Queues.route,
             onClick = { navController.navigate(Screen.Queues.route) },
             colors = NavigationBarItemDefaults.colors(
@@ -87,11 +85,10 @@ fun BottomNav(
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = "Profile",
-                    modifier = Modifier.size(30.dp),
-                    tint = Color(0xFF1E88E5)
+                    modifier = Modifier.size(30.dp)
                 )
             },
-            label = { Text("Profile", color = Color(0xFF1E88E5)) },
+            label = { Text("Profile") },
             selected = navController.currentDestination?.route == Screen.Profile.route,
             onClick = { navController.navigate(Screen.Profile.route) },
             colors = NavigationBarItemDefaults.colors(

@@ -5,12 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,7 +31,7 @@ import com.example.queue_it.ui.notifications.NotificationViewModel
 import com.example.queue_it.ui.profile.ProfileScreen
 import com.example.queue_it.ui.profile.ProfileScreenViewModel
 import com.example.queue_it.ui.queue.QueueScreen
-import com.example.queue_it.ui.queue.QueueViewModel
+import com.example.queue_it.ui.queue.QueueScreenViewModel
 import com.example.queue_it.ui.signup.SignUpScreen
 import com.example.queue_it.ui.splashscreen.OnboardingScreen
 
@@ -60,7 +63,13 @@ fun MainScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             if (currentRoute != Screen.Onboarding.route && currentRoute != Screen.Signup.route && currentRoute != Screen.Login.route) {
-                BottomNav(navController = navController)
+                Box(
+                    modifier = Modifier
+                        //.padding(bottom = 8.dp)
+                        .navigationBarsPadding()
+                ) {
+                    BottomNav(navController = navController)
+                }
             }
         }
     ) { innerPadding ->
@@ -75,7 +84,7 @@ fun MainScreen(navController: NavHostController) {
             composable(Screen.Signup.route) { SignUpScreen(navController) }
             composable(Screen.Login.route) {LoginScreen(navController, viewModel = LoginScreenViewModel())}
             composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel()) }
-            composable(Screen.Queues.route) { QueueScreen(viewModel = QueueViewModel()) }
+            composable(Screen.Queues.route) { QueueScreen(viewModel = QueueScreenViewModel(), onNavigateToEntertainment = { _, _ -> }) }
             composable(Screen.Profile.route) { ProfileScreen(viewModel = ProfileScreenViewModel()) }
             composable(Screen.Notification.route) { NotificationScreen(viewModel = NotificationViewModel())}
         }
