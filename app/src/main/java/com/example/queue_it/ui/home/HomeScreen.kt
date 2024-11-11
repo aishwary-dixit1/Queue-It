@@ -56,7 +56,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 2.dp)
+                    .padding(top = 8.dp, bottom = 2.dp)
             ) {
                 // Displaying an image card as the first item in the list
                 item {

@@ -66,7 +66,7 @@ fun LoginScreen(
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.baseline_login_24),
+                painter = painterResource(id = R.drawable.undraw_login__1_),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
