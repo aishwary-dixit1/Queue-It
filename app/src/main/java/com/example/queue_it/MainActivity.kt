@@ -45,10 +45,6 @@ class MainActivity : ComponentActivity() {
 
            QueueItTheme {
                MainScreen(navController)
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    HomeScreen(viewModel = HomeViewModel(),
-//                        modifier = Modifier.padding(innerPadding))
-//                }
             }
 
         }
@@ -65,7 +61,6 @@ fun MainScreen(navController: NavHostController) {
             if (currentRoute != Screen.Onboarding.route && currentRoute != Screen.Signup.route && currentRoute != Screen.Login.route) {
                 Box(
                     modifier = Modifier
-                        //.padding(bottom = 8.dp)
                         .navigationBarsPadding()
                 ) {
                     BottomNav(navController = navController)

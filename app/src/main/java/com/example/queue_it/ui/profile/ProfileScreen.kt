@@ -180,7 +180,6 @@ fun EventItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Calendar Icon
             Icon(
                 painter = painterResource(id = R.drawable.baseline_calendar_month_24),
                 contentDescription = "Calendar",
@@ -210,7 +209,6 @@ fun EventItem(
                 )
             }
 
-            // Arrow Icon
             Icon(
                 painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
                 contentDescription = "View Details",

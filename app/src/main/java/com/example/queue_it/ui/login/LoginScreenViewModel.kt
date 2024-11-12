@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class LoginUiState(
@@ -16,7 +17,7 @@ data class LoginUiState(
 class LoginScreenViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
-    val uiState: StateFlow<LoginUiState> = _uiState
+    val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
     fun onEmailChange(newEmail: String) {
         _uiState.value = _uiState.value.copy(email = newEmail)

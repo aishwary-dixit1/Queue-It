@@ -35,13 +35,13 @@ fun HomeScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize() // Makes the Box occupy the entire screen size
+            .fillMaxSize()
             .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 0.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 2.dp) // Small padding at the bottom for spacing
+                .padding(bottom = 2.dp)
         ) {
             // Header section with navigation and actions
             HeaderNav(
@@ -66,9 +66,9 @@ fun HomeScreen(
                         subtitle = "Anywhere, Anytime",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp) // Image height
-                            .padding(8.dp) // Spacing around the image card
-                            .clip(RoundedCornerShape(16.dp)) // Rounded corners for the image
+                            .height(250.dp)
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(16.dp))
                     )
                 }
 
@@ -79,9 +79,9 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp)
-                            .padding(start = 8.dp, end = 8.dp), // Padding for left and right
-                        textSize = 20, // Font size for the button text
-                        cornerRadius = 30.dp, // Corner radius for rounded button edges
+                            .padding(start = 8.dp, end = 8.dp),
+                        textSize = 20,
+                        cornerRadius = 30.dp,
                         onClick = { /* Handle click */ }
                     )
                 }
@@ -91,18 +91,18 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp) // Padding around intro text
+                            .padding(16.dp)
                     ) {
                         Text(
                             text = "Welcome to Queue-It",
-                            fontSize = 24.sp, // Large font size for emphasis
-                            fontWeight = FontWeight.Bold // Bold font for the welcome title
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
                         )
-                        Spacer(modifier = Modifier.height(4.dp)) // Space between title and description
+                        Spacer(modifier = Modifier.height(4.dp))
 
                         Text(
                             text = "Queue It is your ultimate solution for managing and booking places in queues for various services like doctors, events, and more. Our platform ensures a seamless experience for both businesses and individuals, reducing wait times and improving efficiency.",
-                            fontSize = 16.sp // Regular font size for descriptive text
+                            fontSize = 16.sp
                         )
                     }
                 }
@@ -154,23 +154,23 @@ fun CategoriesGrid(categories: List<Category>) {
 @Composable
 fun CategoryCard(category: Category, modifier: Modifier) {
     Column(
-        modifier = modifier.padding(4.dp), // Small padding around each card
+        modifier = modifier.padding(4.dp),
         verticalArrangement = Arrangement.Center
     ) {
         Card(
             modifier = Modifier
-                .padding(4.dp) // Padding within each card
+                .padding(4.dp)
                 .aspectRatio(1.5f), // Aspect ratio for card shape
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFE3F2FD), // Background color of the card
-                contentColor = Color(0xFF0D47A1) // Text color for the card content
+                containerColor = Color(0xFFE3F2FD),
+                contentColor = Color(0xFF0D47A1)
             ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp) // Elevation for shadow effect
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.White), // Background color inside the card
+                    .background(color = Color.White),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -186,26 +186,10 @@ fun CategoryCard(category: Category, modifier: Modifier) {
     }
 }
 
-// A reusable button composable for 'Get Started' action with customizable styling
-@Composable
-fun GetStartedButton() {
-    Button(
-        onClick = { /* Handle click */ },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp), // Vertical padding for spacing
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary // Button color
-        )
-    ) {
-        Text("Get Started") // Button text
-    }
-}
-
 // Preview function for HomeScreen composable
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    val navController = rememberNavController() // Initializing a NavController for preview
+    val navController = rememberNavController()
     HomeScreen(viewModel = HomeViewModel())
 }

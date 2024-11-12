@@ -43,7 +43,7 @@ import com.example.queue_it.navigation.Screen
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: LoginScreenViewModel = LoginScreenViewModel(), // Provide your ViewModel here
+    viewModel: LoginScreenViewModel = LoginScreenViewModel(),
     onLoginSuccess: (String, String) -> Unit = { _, _ -> } // Handle login action
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -143,15 +143,12 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginScreen() {
-    // Create a mock ViewModel for the preview
     val viewModel = LoginScreenViewModel()
 
-    // Call the LoginScreen composable and provide mock values or empty callbacks
     LoginScreen(
         navController = rememberNavController(),
         viewModel = viewModel,
         onLoginSuccess = { username, password ->
-            // Handle login success logic here if needed
             println("Logged in with Username: $username, Password: $password")
         }
     )

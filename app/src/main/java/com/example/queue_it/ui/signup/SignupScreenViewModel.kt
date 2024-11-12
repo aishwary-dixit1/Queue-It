@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class SignUpUiState(
@@ -19,7 +20,7 @@ data class SignUpUiState(
 class SignUpScreenViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpUiState())
-    val uiState: StateFlow<SignUpUiState> = _uiState
+    val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
     fun onNameChange(newName: String) {
         _uiState.value = _uiState.value.copy(name = newName)

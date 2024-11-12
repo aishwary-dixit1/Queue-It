@@ -44,7 +44,7 @@ import com.example.queue_it.navigation.Screen
 @Composable
 fun SignUpScreen(
     navController: NavHostController,
-    viewModel: SignUpScreenViewModel = SignUpScreenViewModel(), // Provide your ViewModel here
+    viewModel: SignUpScreenViewModel = SignUpScreenViewModel(),
     onSignUpSuccess: (String, String, String) -> Unit = { _, _, _ -> } // Handle signup action
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -80,22 +80,6 @@ fun SignUpScreen(
         Text("Sign Up", color = Color(0xFF64B5F6), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(16.dp))
-
-//        // Username Field
-//        OutlinedTextField(
-//            value = uiState.name,
-//            onValueChange = { viewModel.onNameChange(it) },
-//            label = { Text("Username", color = Color(0xFF64B5F6)) },
-//            modifier = Modifier.fillMaxWidth(),
-//            colors = OutlinedTextFieldDefaults.colors(
-//                focusedBorderColor = Color(0xFF1976D2),
-//                unfocusedBorderColor = Color(0xFF64B5F6),
-//                focusedTextColor = Color.White
-//            )
-//            )
-//
-//
-//        Spacer(modifier = Modifier.height(8.dp))
 
         // Email Field
         OutlinedTextField(
@@ -194,10 +178,8 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpScreen() {
-    // Create a mock ViewModel for the preview
     val viewModel = SignUpScreenViewModel()
 
-    // Call the SignUpScreen composable and provide mock values or empty callbacks
     SignUpScreen(
         navController = rememberNavController(),
         viewModel = viewModel,

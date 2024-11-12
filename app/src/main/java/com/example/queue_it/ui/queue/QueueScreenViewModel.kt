@@ -17,7 +17,6 @@ class QueueScreenViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    // Entertainment sections
     private val _entertainmentSections = MutableStateFlow<List<EntertainmentSection>>(emptyList())
     val entertainmentSections: StateFlow<List<EntertainmentSection>> = _entertainmentSections.asStateFlow()
 
@@ -29,11 +28,11 @@ class QueueScreenViewModel : ViewModel() {
     private fun loadActiveQueues() {
         viewModelScope.launch {
             // Simulate API call/Database fetch
-            // In real app, replace with actual data fetching
+            //replace with actual data fetching
             _isLoading.value = true
             delay(1000) // Simulate network delay
 
-            // Example data - replace with real data fetch
+            // replace with real data fetch
             _activeQueues.value = listOf(
                 QueueStatus(
                     event = Event(

@@ -37,7 +37,7 @@ import com.example.queue_it.navigation.Screen
 
 
 data class OnboardingPage(
-    val animation: Int,  // Replace image with animation
+    val animation: Int,
     val title: String,
     val description: String
 )
@@ -47,22 +47,22 @@ data class OnboardingPage(
 fun OnboardingScreen(navController: NavController) {
     val pages = listOf(
         OnboardingPage(
-            animation = R.raw.lottie_queue_animation,  // Lottie JSON file in res/raw
+            animation = R.raw.lottie_queue_animation,
             title = "Queue Anywhere, Anytime",
             description = "Join virtual queues from the comfort of your home. Save time and avoid physical waiting lines."
         ),
         OnboardingPage(
-            animation = R.raw.lottie_queue_animation,  // Another Lottie file
+            animation = R.raw.lottie_queue_animation,
             title = "Schedule Medical Appointments",
             description = "Book appointments with doctors and healthcare professionals seamlessly."
         ),
         OnboardingPage(
-            animation = R.raw.lottie_queue_animation,  // Another Lottie file
+            animation = R.raw.lottie_queue_animation,
             title = "Create Your Own Queue",
             description = "Organize events and manage crowds efficiently by creating custom queues for concerts, exhibitions, and more."
         ),
         OnboardingPage(
-            animation = R.raw.lottie_queue_animation,  // Another Lottie file
+            animation = R.raw.lottie_queue_animation,
             title = "Get Started",
             description = "Join Queue-It now and experience the future of queue management."
         )
