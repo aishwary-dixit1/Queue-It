@@ -1,9 +1,11 @@
 package com.example.queue_it
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -22,6 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.commonUI.BottomNav
 import com.example.queue_it.navigation.Screen
 import com.example.queue_it.theme.QueueItTheme
+import com.example.queue_it.ui.businessqueue.BusinessQueueManagementScreen
+import com.example.queue_it.ui.businessqueue.BusinessQueueViewModel
 import com.example.queue_it.ui.home.HomeScreen
 import com.example.queue_it.ui.home.HomeViewModel
 import com.example.queue_it.ui.login.LoginScreen
@@ -36,6 +40,7 @@ import com.example.queue_it.ui.signup.SignUpScreen
 import com.example.queue_it.ui.splashscreen.OnboardingScreen
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -51,6 +56,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(navController: NavHostController) {
 
@@ -78,14 +84,16 @@ fun MainScreen(navController: NavHostController) {
             composable(Screen.Onboarding.route) { OnboardingScreen(navController) }
             composable(Screen.Signup.route) { SignUpScreen(navController) }
             composable(Screen.Login.route) {LoginScreen(navController, viewModel = LoginScreenViewModel())}
-            composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel()) }
+            composable(Screen.Home.route) { HomeScreen(viewModel = HomeViewModel(), navController) }
             composable(Screen.Queues.route) { QueueScreen(viewModel = QueueScreenViewModel(), onNavigateToEntertainment = { _, _ -> }) }
             composable(Screen.Profile.route) { ProfileScreen(viewModel = ProfileScreenViewModel()) }
-            composable(Screen.Notification.route) { NotificationScreen(viewModel = NotificationViewModel())}
+            composable(Screen.Notification.route) { NotificationScreen(viewModel = NotificationViewModel(), navController)}
+            composable(Screen.BusinessQueue.route) { BusinessQueueManagementScreen(viewModel = BusinessQueueViewModel(), navController) }
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {

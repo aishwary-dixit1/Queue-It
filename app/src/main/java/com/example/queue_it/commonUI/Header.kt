@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
 import com.example.queue_it.navigation.Screen
@@ -36,7 +36,7 @@ import com.example.queue_it.theme.varelaRoundFontfamily
 
 @Composable
 fun HeaderNav(
-    navController: NavHostController,
+    navController: NavController,
     title: String,
     location: String,
     onSearchClick: () -> Unit,

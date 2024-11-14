@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,112 +16,118 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
-import com.example.queue_it.commonUI.BottomNav
 import com.example.queue_it.commonUI.GradientButton
 import com.example.queue_it.commonUI.HeaderNav
 import com.example.queue_it.commonUI.ImageCards
 import com.example.queue_it.model.Category
+import com.example.queue_it.navigation.Screen
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    navController: NavController
 ) {
     // Observing UI state from the ViewModel
     val uiState by viewModel.uiState.collectAsState()
-    val navController = rememberNavController()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 0.dp)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surface
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 2.dp)
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 0.dp)
         ) {
-            // Header section with navigation and actions
-            HeaderNav(
-                navController = navController,
-                title = "Queue-it",
-                location = "Kanpur",
-                onSearchClick = { /* Handle search click */ },
-                onQrScanClick = { /* Handle QR scanning click */ }
-            )
-
-            // Scrollable list for displaying content in a vertical arrangement
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp, bottom = 2.dp)
+                    .padding(bottom = 2.dp)
             ) {
-                // Displaying an image card as the first item in the list
-                item {
-                    ImageCards(
-                        imageDrawable = R.drawable.queue_image,
-                        title = "In the Queue",
-                        subtitle = "Anywhere, Anytime",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(250.dp)
-                            .padding(8.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
-                }
+                // Header section with navigation and actions
+                HeaderNav(
+                    navController = navController,
+                    title = "Queue-it",
+                    location = "Kanpur",
+                    onSearchClick = { /* Handle search click */ },
+                    onQrScanClick = { /* Handle QR scanning click */ }
+                )
 
-                // 'Get Started' button item with gradient styling
-                item {
-                    GradientButton(
-                        text = "Get Started",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp)
-                            .padding(start = 8.dp, end = 8.dp),
-                        textSize = 20,
-                        cornerRadius = 30.dp,
-                        onClick = { /* Handle click */ }
-                    )
-                }
-
-                // Intro section for displaying welcome text and app description
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Welcome to Queue-It",
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
+                // Scrollable list for displaying content in a vertical arrangement
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 8.dp, bottom = 2.dp)
+                ) {
+                    // Displaying an image card as the first item in the list
+                    item {
+                        ImageCards(
+                            imageDrawable = R.drawable.queue_image,
+                            title = "In the Queue",
+                            subtitle = "Anywhere, Anytime",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(250.dp)
+                                .padding(8.dp)
+                                .clip(RoundedCornerShape(16.dp))
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
+                    }
 
-                        Text(
-                            text = "Queue It is your ultimate solution for managing and booking places in queues for various services like doctors, events, and more. Our platform ensures a seamless experience for both businesses and individuals, reducing wait times and improving efficiency.",
-                            fontSize = 16.sp
+                    // 'Get Started' button item with gradient styling
+                    item {
+                        GradientButton(
+                            text = "Let's make a Queue",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .padding(start = 8.dp, end = 8.dp),
+                            textSize = 20,
+                            cornerRadius = 30.dp,
+                            onClick = { navController.navigate(Screen.BusinessQueue.route) }
                         )
+                    }
+
+                    // Intro section for displaying welcome text and app description
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = "Welcome to Queue-It",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            Text(
+                                text = "Queue It is your ultimate solution for managing and booking places in queues for various services like doctors, events, and more. Our platform ensures a seamless experience for both businesses and individuals, reducing wait times and improving efficiency.",
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+
+                    // Categories grid to showcase different queue categories
+                    item {
+                        CategoriesGrid(categories = uiState.categories)
                     }
                 }
 
-                // Categories grid to showcase different queue categories
-                item {
-                    CategoriesGrid(categories = uiState.categories)
-                }
             }
 
-        }
-
-        // Floating Action Button (FAB) for additional actions, such as showing current status
-        /* Uncomment to enable the FAB
+            // Floating Action Button (FAB) for additional actions, such as showing current status
+            /* Uncomment to enable the FAB
         GradientFloatingActionButton(
             onClick = { /* Handle click */ },
             modifier = Modifier
                 .align(Alignment.BottomEnd) // Positioning FAB at the bottom right
                 .padding(end = 16.dp, bottom = 76.dp) // Padding from screen edges
         ) */
+        }
     }
 }
 
@@ -191,5 +196,5 @@ fun CategoryCard(category: Category, modifier: Modifier) {
 @Composable
 fun HomeScreenPreview() {
     val navController = rememberNavController()
-    HomeScreen(viewModel = HomeViewModel())
+    HomeScreen(viewModel = HomeViewModel(), navController)
 }

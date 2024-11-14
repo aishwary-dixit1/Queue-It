@@ -46,7 +46,9 @@ class QueueScreenViewModel : ViewModel() {
                         avgWaitingTime = "45 mins",
                         date = "2024-04-15",
                         venue = "Central Park",
-                        imageResId = R.drawable.concert_queue_image
+                        imageResId = R.drawable.concert_queue_image,
+                        businessId = null,
+                        columnsId = null,
                     ),
                     tokenNumber = "A123",
                     position = 5,

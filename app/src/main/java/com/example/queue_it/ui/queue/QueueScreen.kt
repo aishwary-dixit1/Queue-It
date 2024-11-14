@@ -26,49 +26,54 @@ fun QueueScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val entertainmentSections by viewModel.entertainmentSections.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surface
     ) {
-        Text(
-            text = "My Active Queues",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "My Active Queues",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
 
-        if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            LazyColumn {
-                itemsIndexed(activeQueues) { _, queueStatus ->
-                    QueueStatusCard(queueStatus)
-                    Spacer(modifier = Modifier.height(16.dp))
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
+            } else {
+                LazyColumn {
+                    itemsIndexed(activeQueues) { _, queueStatus ->
+                        QueueStatusCard(queueStatus)
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
 
-                item {
-                    Text(
-                        text = "While You Wait",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    )
-                }
+                    item {
+                        Text(
+                            text = "While You Wait",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(vertical = 16.dp)
+                        )
+                    }
 
-                itemsIndexed(entertainmentSections) { _, section ->
-                    EntertainmentSection(
-                        section = section,
-                        onItemClick = { item ->
-                            onNavigateToEntertainment(section.title, item)
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    itemsIndexed(entertainmentSections) { _, section ->
+                        EntertainmentSection(
+                            section = section,
+                            onItemClick = { item ->
+                                onNavigateToEntertainment(section.title, item)
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
