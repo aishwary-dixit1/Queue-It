@@ -1,7 +1,9 @@
 package com.example.queue_it.navigation
 
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Screen(
     val route: String,
     val title: String,
@@ -29,11 +31,6 @@ data class Screen(
             route = "home",
             title = "Home",
             location = "Home"
-        )
-        val BusinessQueue = Screen(
-            route = "businessqueue",
-            title = "BusinessQueue",
-            location = "Home > BusinessQueue"
         )
         val Categories = Screen(
             route = "categories",
