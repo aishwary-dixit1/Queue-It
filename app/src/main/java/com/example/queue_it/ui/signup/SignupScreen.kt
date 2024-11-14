@@ -45,132 +45,162 @@ import com.example.queue_it.navigation.Screen
 fun SignUpScreen(
     navController: NavHostController,
     viewModel: SignUpScreenViewModel = SignUpScreenViewModel(),
-    onSignUpSuccess: (String, String, String) -> Unit = { _, _, _ -> } // Handle signup action
+    onSignUpSuccess: (String, String, String) -> Unit = { _, _, _ -> }
 ) {
+    // Use collectAsState() to observe the StateFlow
     val uiState by viewModel.uiState.collectAsState()
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 16.dp, bottom = 16.dp, start = 32.dp, end = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.surface
     ) {
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        Box(modifier = Modifier
-            .padding(16.dp)
-            .wrapContentWidth()
-            .align(alignment = Alignment.CenterHorizontally)
-            .width(100.dp)
-            .height(100.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 16.dp, bottom = 16.dp, start = 32.dp, end = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(50.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.undraw_login__1_),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+            // Logo Image
+            Box(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .wrapContentWidth()
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .width(100.dp)
+                    .height(100.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.undraw_login__1_),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                "Sign Up",
+                color = Color(0xFF64B5F6),
+                style = MaterialTheme.typography.headlineMedium
             )
-        }
 
-        Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Sign Up", color = Color(0xFF64B5F6), style = MaterialTheme.typography.headlineMedium)
+            // Name Field
+            OutlinedTextField(
+                value = uiState.name,
+                onValueChange = { viewModel.onNameChange(it) },
+                label = { Text("Name", color = Color(0xFF64B5F6)) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF1976D2),
+                    unfocusedBorderColor = Color(0xFF64B5F6),
+                    focusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Email Field
-        OutlinedTextField(
-            value = uiState.email,
-            onValueChange = { viewModel.onEmailChange(it) },
-            label = { Text("Email", color = Color(0xFF64B5F6)) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF1976D2),
-                unfocusedBorderColor = Color(0xFF64B5F6),
-                focusedTextColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Phone Number Field
-        OutlinedTextField(
-            value = uiState.phoneNumber,
-            onValueChange = { viewModel.onPhoneNumberChange(it) },
-            label = { Text("Phone Number", color = Color(0xFF64B5F6)) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF1976D2),
-                unfocusedBorderColor = Color(0xFF64B5F6),
-                focusedTextColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Password Field
-        OutlinedTextField(
-            value = uiState.password,
-            onValueChange = { viewModel.onPasswordChange(it) },
-            label = { Text("Password", color = Color(0xFF64B5F6)) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF1976D2),
-                unfocusedBorderColor = Color(0xFF64B5F6),
-                focusedTextColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Confirm Password Field
-        OutlinedTextField(
-            value = uiState.confirmPassword,
-            onValueChange = { viewModel.onConfirmPasswordChange(it) },
-            label = { Text("Confirm Password", color = Color(0xFF64B5F6)) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF1976D2),
-                unfocusedBorderColor = Color(0xFF64B5F6),
-                focusedTextColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        GradientButton(
-            text = "Sign Up",
-            textSize = 18,
-            cornerRadius = 16.dp,
-            onClick = {
-                navController.navigate(Screen.Login.route)
-//                viewModel.signUp()
-//                if (uiState.isSignUpSuccessful) onSignUpSuccess(uiState.name ,uiState.email, uiState.phoneNumber)
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        TextButton(
-            onClick = { navController.navigate(Screen.Login.route) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Already have an account? Login", color = Color(0xFF42A5F5))
-        }
-
-        uiState.errorMessage?.let {
             Spacer(modifier = Modifier.height(8.dp))
-            Text(it, color = MaterialTheme.colorScheme.error)
+
+            // Email Field
+            OutlinedTextField(
+                value = uiState.email,
+                onValueChange = { viewModel.onEmailChange(it) },
+                label = { Text("Email", color = Color(0xFF64B5F6)) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF1976D2),
+                    unfocusedBorderColor = Color(0xFF64B5F6),
+                    focusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Phone Number Field
+            OutlinedTextField(
+                value = uiState.phoneNumber,
+                onValueChange = { viewModel.onPhoneNumberChange(it) },
+                label = { Text("Phone Number", color = Color(0xFF64B5F6)) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF1976D2),
+                    unfocusedBorderColor = Color(0xFF64B5F6),
+                    focusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Password Field
+            OutlinedTextField(
+                value = uiState.password,
+                onValueChange = { viewModel.onPasswordChange(it) },
+                label = { Text("Password", color = Color(0xFF64B5F6)) },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF1976D2),
+                    unfocusedBorderColor = Color(0xFF64B5F6),
+                    focusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Confirm Password Field
+            OutlinedTextField(
+                value = uiState.confirmPassword,
+                onValueChange = { viewModel.onConfirmPasswordChange(it) },
+                label = { Text("Confirm Password", color = Color(0xFF64B5F6)) },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF1976D2),
+                    unfocusedBorderColor = Color(0xFF64B5F6),
+                    focusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Sign Up Button
+            GradientButton(
+                text = "Sign Up",
+                textSize = 18,
+                cornerRadius = 16.dp,
+                onClick = { navController.navigate(Screen.Login.route)
+//                    viewModel.signUp()
+//                    if (uiState.isSignUpSuccessful) {
+//                        onSignUpSuccess(uiState.name, uiState.email, uiState.phoneNumber)
+//                        navController.navigate(Screen.Login.route)
+//                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Login Link
+            TextButton(
+                onClick = { navController.navigate(Screen.Login.route) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Already have an account? Login", color = Color(0xFF42A5F5))
+            }
+
+            // Error Message
+            uiState.errorMessage?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(it, color = MaterialTheme.colorScheme.error)
+            }
         }
     }
 }
