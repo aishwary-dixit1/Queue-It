@@ -25,10 +25,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
 import com.example.queue_it.navigation.Screen
@@ -36,7 +37,7 @@ import com.example.queue_it.theme.varelaRoundFontfamily
 
 @Composable
 fun HeaderNav(
-    navController: NavController,
+    navController: NavHostController,
     title: String,
     location: String,
     onSearchClick: () -> Unit,
@@ -75,6 +76,7 @@ fun HeaderNav(
                 Text(
                     text = title,
                     fontSize = 24.sp,
+                    overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = varelaRoundFontfamily,
                     color = Color(0xFF42A5F5)

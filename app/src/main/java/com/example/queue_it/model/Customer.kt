@@ -1,9 +1,11 @@
 package com.example.queue_it.model
 
-data class Customer (
-    val customerId: Int,
-    val customerName: String,
-    val customerAge: Int,
-    val customerGender: Char,
-    val currentJoinedQueueId: MutableList<Ticket?>
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Customer(
+    val id: Int = -1,
+    val name: String,
+    val age: Int,
+    val gender: Gender
 )

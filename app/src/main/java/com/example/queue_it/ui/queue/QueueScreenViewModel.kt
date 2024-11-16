@@ -34,28 +34,26 @@ class QueueScreenViewModel : ViewModel() {
 
             // replace with real data fetch
             _activeQueues.value = listOf(
-                QueueStatus(
-                    event = Event(
-                        id = 1,
-                        openingTime = "09:00 AM",
-                        time = "10:00 AM",
-                        closingTime = "06:00 PM",
-                        eventCategory = "Concert",
-                        title = "Summer Music Festival",
-                        description = "Annual music festival",
-                        avgWaitingTime = "45 mins",
-                        date = "2024-04-15",
-                        venue = "Central Park",
-                        imageResId = R.drawable.concert_queue_image,
-                        businessId = null,
-                        columnsId = null,
-                    ),
-                    tokenNumber = "A123",
-                    position = 5,
-                    peopleAhead = 4,
-                    expectedWaitTime = "20 min",
-                    expectedTurnTime = "11:20 AM"
-                )
+//                QueueStatus(
+//                    event = Event(
+//                        id = 1,
+//                        openingTime = "09:00 AM",
+//                        time = "10:00 AM",
+//                        closingTime = "06:00 PM",
+//                        eventCategory = "Concert",
+//                        title = "Summer Music Festival",
+//                        description = "Annual music festival",
+//                        avgWaitingTime = "45 mins",
+//                        date = "2024-04-15",
+//                        venue = "Central Park",
+//                        imageResId = R.drawable.concert_queue_image
+//                    ),
+//                    tokenNumber = "A123",
+//                    position = 5,
+//                    peopleAhead = 4,
+//                    expectedWaitTime = "20 min",
+//                    expectedTurnTime = "11:20 AM"
+//                )
             )
             _isLoading.value = false
         }

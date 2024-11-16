@@ -48,104 +48,94 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surface
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 16.dp, bottom = 16.dp, start = 32.dp, end = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 16.dp, bottom = 16.dp, start = 32.dp, end = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Box(modifier = Modifier
+            .padding(16.dp)
+            .wrapContentWidth()
+            .align(alignment = Alignment.CenterHorizontally)
+            .width(100.dp)
+            .height(100.dp)
         ) {
 
-            Spacer(modifier = Modifier.height(50.dp))
-
-            Box(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .wrapContentWidth()
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .width(100.dp)
-                    .height(100.dp)
-            ) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.undraw_login__1_),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize(),
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Text(
-                "Login",
-                color = Color(0xFF64B5F6),
-                style = MaterialTheme.typography.headlineMedium
+            Image(
+                painter = painterResource(id = R.drawable.undraw_login__1_),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
             )
+        }
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-            // Email Field
-            OutlinedTextField(
-                value = uiState.email,
-                onValueChange = { viewModel.onEmailChange(it) },
-                label = { Text("Email", color = Color(0xFF64B5F6)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF1976D2),
-                    unfocusedBorderColor = Color(0xFF64B5F6),
-                    focusedTextColor = Color.White
-                ),
-                shape = RoundedCornerShape(16.dp)
+        Text("Login", color = Color(0xFF64B5F6), style = MaterialTheme.typography.headlineMedium)
 
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
+        // Email Field
+        OutlinedTextField(
+            value = uiState.email,
+            onValueChange = { viewModel.onEmailChange(it) },
+            label = { Text("Email", color = Color(0xFF64B5F6)) },
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF1976D2),
+                unfocusedBorderColor = Color(0xFF64B5F6),
+                focusedTextColor = Color.White
+            ),
+            shape = RoundedCornerShape(16.dp)
 
-            // Password Field
-            OutlinedTextField(
-                value = uiState.password,
-                onValueChange = { viewModel.onPasswordChange(it) },
-                label = { Text("Password", color = Color(0xFF64B5F6)) },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF1976D2),
-                    unfocusedBorderColor = Color(0xFF64B5F6),
-                    focusedTextColor = Color.White
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
+        )
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-            GradientButton(
-                text = "Login",
-                textSize = 18,
-                cornerRadius = 16.dp,
-                onClick = {
-                    navController.navigate(Screen.Home.route)
+        // Password Field
+        OutlinedTextField(
+            value = uiState.password,
+            onValueChange = { viewModel.onPasswordChange(it) },
+            label = { Text("Password", color = Color(0xFF64B5F6)) },
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF1976D2),
+                unfocusedBorderColor = Color(0xFF64B5F6),
+                focusedTextColor = Color.White
+            ),
+            shape = RoundedCornerShape(16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        GradientButton(
+            text = "Login",
+            textSize = 18,
+            cornerRadius = 16.dp,
+            onClick = {
+                navController.navigate(Screen.Home.route)
 //                viewModel.login()
 //                if (uiState.isLoginSuccessful) onLoginSuccess(uiState.email, uiState.password)
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(24.dp))
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(24.dp))
 
-            TextButton(
-                onClick = { navController.navigate(Screen.Signup.route) },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text("Don't have an account? Sign Up", color = Color(0xFF42A5F5))
-            }
+        TextButton(
+            onClick = { navController.navigate(Screen.Signup.route) },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Don't have an account? Sign Up", color = Color(0xFF42A5F5))
+        }
 
-            uiState.errorMessage?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(it, color = MaterialTheme.colorScheme.error)
-            }
+        uiState.errorMessage?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(it, color = MaterialTheme.colorScheme.error)
         }
     }
 }
