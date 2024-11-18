@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
 
 object LocalStorage {
 
@@ -22,10 +23,10 @@ object LocalStorage {
         }
     }
 
-    fun getUserToken(context: Context) : String {
+    fun getUserToken(context: Context): Flow<String> {
         return context.tokens.data.map {
             it[USER_TOKEN] ?: "none"
-        }.toString()
+        }
     }
 
     suspend fun saveBusinessToken(context: Context, token: String) {
@@ -34,10 +35,10 @@ object LocalStorage {
         }
     }
 
-    fun getBusinessToken(context: Context) : String {
+    fun getBusinessToken(context: Context) : Flow<String> {
         return context.tokens.data.map {
             it[BUSINESS_TOKEN] ?: "none"
-        }.toString()
+        }
     }
 
     suspend fun saveCustomerToken(context: Context, token: String) {
@@ -46,9 +47,9 @@ object LocalStorage {
         }
     }
 
-    fun getCustomerToken(context: Context) : String {
+    fun getCustomerToken(context: Context) : Flow<String> {
         return context.tokens.data.map {
             it[CUSTOMER_TOKEN] ?: "none"
-        }.toString()
+        }
     }
 }

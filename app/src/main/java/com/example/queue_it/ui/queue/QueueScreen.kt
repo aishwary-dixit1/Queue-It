@@ -2,8 +2,10 @@ package com.example.queue_it.ui.queue
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,44 +14,70 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.queue_it.common.LoadingScreen
+import com.example.queue_it.common.RequestStatus
+import com.example.queue_it.model.Event
+import java.time.LocalDateTime
 
 @Composable
 fun QueueScreen(
-    viewModel: QueueScreenViewModel = QueueScreenViewModel(),
-    onNavigateToEntertainment: (String, String) -> Unit
+    viewModel: QueueScreenViewModel = viewModel(),
 ) {
-    val activeQueues by viewModel.activeQueues.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val entertainmentSections by viewModel.entertainmentSections.collectAsState()
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "My Active Queues",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 24.dp)
+    val requestStatus by viewModel.requestStatus.collectAsState()
+    when (requestStatus) {
+        RequestStatus.Idle -> {}
+        is RequestStatus.Error -> QueueScreen(
+            emptyList(),
+            (requestStatus as RequestStatus.Error).message
         )
 
-        if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
+        RequestStatus.Loading -> LoadingScreen()
+        is RequestStatus.Success -> QueueScreen((requestStatus as RequestStatus.Success<List<Event>>).data)
+    }
+}
+
+@Composable
+fun QueueScreen(
+    activeQueues: List<Event>,
+    errorMsg: String? = null,
+    viewModel: QueueScreenViewModel = viewModel()
+) {
+
+    val entertainmentSections by viewModel.entertainmentSections.collectAsState()
+
+    if (errorMsg != null) {
+        Box(
+            contentAlignment = Alignment.Center, modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+        ) {
+            Text(errorMsg)
+        }
+    } else {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "My Active Queues",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
             LazyColumn {
-                itemsIndexed(activeQueues) { _, queueStatus ->
-                    QueueStatusCard(queueStatus)
-                    Spacer(modifier = Modifier.height(16.dp))
+                items(items = activeQueues) {
+                    EventCard(it, viewModel::mapUnixToDateTime)
+                    Spacer(Modifier.height(16.dp))
                 }
 
                 item {
@@ -64,9 +92,7 @@ fun QueueScreen(
                 itemsIndexed(entertainmentSections) { _, section ->
                     EntertainmentSection(
                         section = section,
-                        onItemClick = { item ->
-                            onNavigateToEntertainment(section.title, item)
-                        }
+                        onItemClick = {}
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -76,7 +102,86 @@ fun QueueScreen(
 }
 
 @Composable
-fun QueueStatusCard(queueStatus: QueueStatus) {
+fun EventCard(
+    event: Event,
+    changeTimeFormat: (Long) -> LocalDateTime
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = event.title, style = MaterialTheme.typography.headlineSmall)
+            Text(
+                text = "${ changeTimeFormat(event.startTime) } - ${ changeTimeFormat(event.startTime) }",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Current Number",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(4.dp)
+                    )
+
+                    Text(
+                        text = "#${45}",
+                        style = MaterialTheme.typography.displaySmall,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Cyan,
+                        modifier = Modifier.padding(4.dp)
+                    )
+
+                    Text(
+                        text = "Your Number",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(4.dp)
+                    )
+
+                    Text(
+                        text = "#${100}",
+                        style = MaterialTheme.typography.displaySmall,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Cyan,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Time Left",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(4.dp)
+                    )
+
+                    Text(
+                        text = "45 min.",
+                        style = MaterialTheme.typography.displaySmall,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.Cyan,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun QueueStatusCard(queueDetails: Event) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -88,7 +193,7 @@ fun QueueStatusCard(queueStatus: QueueStatus) {
                 .padding(16.dp)
         ) {
             Text(
-                text = queueStatus.event.title,
+                text = "Event Title Here",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -99,8 +204,8 @@ fun QueueStatusCard(queueStatus: QueueStatus) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                QueueInfoItem("Token", queueStatus.tokenNumber)
-                QueueInfoItem("Position", "#${queueStatus.position}")
+                QueueInfoItem("Token", "queueStatus.tokenNumber")
+                QueueInfoItem("Position", "#{queueStatus.position}")
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -109,14 +214,14 @@ fun QueueStatusCard(queueStatus: QueueStatus) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                QueueInfoItem("People Ahead", queueStatus.peopleAhead.toString())
-                QueueInfoItem("Wait Time", queueStatus.expectedWaitTime)
+                QueueInfoItem("People Ahead", "queueStatus.peopleAhead.toString()")
+                QueueInfoItem("Wait Time", "queueStatus.expectedWaitTime")
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Expected Turn: ${queueStatus.expectedTurnTime}",
+                text = "Expected Turn: queueStatus.expectedTurnTime}",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFF64B5F6)

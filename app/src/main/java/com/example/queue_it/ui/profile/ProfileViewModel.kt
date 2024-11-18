@@ -139,6 +139,9 @@ class ProfileScreenViewModel(
     fun signOut(context: Context, navigateToLogin: () -> Unit) {
         viewModelScope.launch {
             LocalStorage.saveUserToken(context, "none")
+            LocalStorage.saveBusinessToken(context, "none")
+            LocalStorage.saveCustomerToken(context, "none")
+            //Log.d("check", LocalStorage.getUserToken(context))
         }
         navigateToLogin()
     }

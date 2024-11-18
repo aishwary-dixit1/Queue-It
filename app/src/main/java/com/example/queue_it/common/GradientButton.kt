@@ -1,4 +1,4 @@
-package com.example.queue_it.commonUI
+package com.example.queue_it.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

@@ -32,7 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
-import com.example.queue_it.commonUI.GradientButton
+import com.example.queue_it.common.GradientButton
 import com.example.queue_it.navigation.Screen
 
 @Composable
@@ -42,6 +42,7 @@ fun SignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current.applicationContext
+    val requestStatus = viewModel.requestStatus.collectAsState()
 
     Column(
         modifier = Modifier
@@ -164,6 +165,7 @@ fun SignUpScreen(
             Text(it, color = MaterialTheme.colorScheme.error)
         }
     }
+
 }
 
 @Preview(showBackground = true)

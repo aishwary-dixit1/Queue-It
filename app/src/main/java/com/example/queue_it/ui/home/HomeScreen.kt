@@ -12,25 +12,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.example.queue_it.R
-import com.example.queue_it.commonUI.GradientButton
-import com.example.queue_it.commonUI.GradientFloatingActionButton
-import com.example.queue_it.commonUI.HeaderNav
-import com.example.queue_it.commonUI.ImageCards
+import com.example.queue_it.common.GradientButton
+import com.example.queue_it.common.GradientFloatingActionButton
+import com.example.queue_it.common.HeaderNav
+import com.example.queue_it.common.ImageCards
+import com.example.queue_it.local.LocalStorage
 import com.example.queue_it.model.Category
+import com.example.queue_it.navigation.Screen
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = viewModel(),
+    navController: NavHostController
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val navController = rememberNavController()
+    val context = LocalContext.current.applicationContext
+    val businessToken = LocalStorage.getBusinessToken(context).collectAsState("")
 
     Box(
         modifier = Modifier
@@ -81,11 +85,16 @@ fun HomeScreen(
                             .padding(start = 8.dp, end = 8.dp),
                         textSize = 20,
                         cornerRadius = 30.dp,
-                        onClick = { /* Handle click */ }
+                        onClick = {
+                            navController.navigate(
+                                if (businessToken.value == "none")
+                                    Screen.RegisterBusiness.route
+                                else Screen.BusinessEventScreen.route
+                            )
+                        }
                     )
                 }
 
-                // Intro section for displaying welcome text and app description
                 item {
                     Column(
                         modifier = Modifier
@@ -106,7 +115,6 @@ fun HomeScreen(
                     }
                 }
 
-                // Categories grid to showcase different queue categories
                 item {
                     CategoriesGrid(categories = uiState.categories)
                 }
@@ -114,17 +122,15 @@ fun HomeScreen(
 
         }
 
-        // Floating Action Button (FAB) for additional actions, such as showing current status
         GradientFloatingActionButton(
             onClick = { /* Handle click */ },
             modifier = Modifier
-                .align(Alignment.BottomEnd) // Positioning FAB at the bottom right
-                .padding(end = 16.dp, bottom = 76.dp) // Padding from screen edges
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 76.dp)
         )
     }
 }
 
-// Displays a grid layout for queue categories, with each category in a card
 @Composable
 fun CategoriesGrid(categories: List<Category>) {
     Column(
@@ -181,12 +187,4 @@ fun CategoryCard(category: Category, modifier: Modifier) {
             }
         }
     }
-}
-
-// Preview function for HomeScreen composable
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    HomeScreen(viewModel = HomeViewModel())
 }
