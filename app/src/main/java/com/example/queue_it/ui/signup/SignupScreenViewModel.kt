@@ -46,23 +46,21 @@ class SignUpScreenViewModel() : ViewModel() {
 
     fun handleSignUp(
         context: Context,
-        navigateToUserTypeScreen: () -> Unit,
     ) {
         if (validateDetails()) {
             viewModelScope.launch {
-                //try {
+                try {
+                    requestStatus.value = RequestStatus.Loading
                     val user = mapToUser()
                     NetworkClient.signUpRequest(context, user)
-                    navigateToUserTypeScreen()
-//                } catch (e: Exception) {
-//                    _uiState.update {
-//                        it.copy(
-//                            errorMessage = "Error: ${e.message}"
-//                        )
-//                    }
-//
-//                    Log.d("check", "${e.message}")
-//                }
+                    requestStatus.value = RequestStatus.Success(Unit)
+                } catch (e: Exception) {
+                    _uiState.update {
+                        it.copy(
+                            errorMessage = "Error: ${e.message}"
+                        )
+                    }
+                }
             }
         } else {
             _uiState.update {

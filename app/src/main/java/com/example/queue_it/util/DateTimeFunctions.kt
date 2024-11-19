@@ -13,7 +13,7 @@ fun convertToMillis(dateTimeString: String): Long {
         // Use ZoneId for IST (Indian Standard Time)
         val x = localDateTime.atZone(ZoneId.of("Asia/Kolkata")).toInstant().toEpochMilli()
         Log.d("check", x.toString())
-        x
+        x / 1000
     } catch (e: Exception) {
         println("Error parsing date: ${e.message}")
         -1

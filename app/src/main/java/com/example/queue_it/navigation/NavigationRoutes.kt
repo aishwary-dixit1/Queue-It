@@ -101,6 +101,18 @@ data class Screen(
             title = "Event Details",
             location = "Event Details"
         )
+
+        val RegisterCustomer = Screen(
+            route = "register customer",
+            title = "Register Customer",
+            location = "Register Customer"
+        )
+
+        fun getQueueDetailsScreen(queueId: Int) = Screen(
+            route = "queue-details/$queueId",
+            title = "Queue Details",
+            location = "Queue Details"
+        )
     }
 }
 

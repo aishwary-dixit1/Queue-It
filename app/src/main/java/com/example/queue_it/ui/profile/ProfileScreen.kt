@@ -1,43 +1,54 @@
 package com.example.queue_it.ui.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.queue_it.R
-import com.example.queue_it.model.Event
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.queue_it.common.LoadingScreen
+import com.example.queue_it.common.RequestStatus
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileScreenViewModel,
+    viewModel: ProfileViewModel = viewModel(),
+    navigateToLogin: () -> Unit,
+) {
+    val context = LocalContext.current.applicationContext
+    viewModel.loadUser(context)
+    val requestStatus by viewModel.requestStatus.collectAsState()
+    when (requestStatus) {
+        RequestStatus.Loading -> LoadingScreen()
+        is RequestStatus.Success -> ProfileScreenContent(viewModel, navigateToLogin)
+        RequestStatus.Idle -> {}
+        is RequestStatus.Error -> {}
+    }
+}
+
+@Composable
+fun ProfileScreenContent(
+    viewModel: ProfileViewModel,
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    onEventClick: (Event) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
+    val context = LocalContext.current.applicationContext
 
     Surface(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().statusBarsPadding(),
         color = MaterialTheme.colorScheme.surface
     ) {
 
@@ -57,12 +68,12 @@ fun ProfileScreen(
             )
 
             InitialAvatar(
-                name = uiState.name,
+                name = uiState.customer.name,
                 modifier = Modifier.size(120.dp)
             )
 
             Text(
-                text = uiState.name,
+                text = uiState.customer.name,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
@@ -70,13 +81,13 @@ fun ProfileScreen(
 
             ProfileField(
                 label = "Email",
-                value = uiState.email,
+                value = uiState.user.email,
                 modifier = Modifier.fillMaxWidth()
             )
 
             ProfileField(
                 label = "Phone Number",
-                value = uiState.phoneNumber,
+                value = uiState.user.phoneNo.toString(),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -88,20 +99,23 @@ fun ProfileScreen(
             ) {
                 ProfileField(
                     label = "Age",
-                    value = uiState.age.toString(),
+                    value = uiState.customer.age.toString(),
                     modifier = Modifier.weight(1f)
                 )
 
                 ProfileField(
                     label = "Gender",
-                    value = uiState.gender,
+                    value = uiState.customer.gender.name,
                     modifier = Modifier.weight(1f)
                 )
             }
 
             // Logout Button
             TextButton(
-                onClick = { viewModel.signOut(context) { navigateToLogin() } },
+                onClick = {
+                    viewModel.signOut(context)
+                    navigateToLogin()
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
@@ -128,62 +142,6 @@ fun ProfileScreen(
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.BottomCenter) {
                 Text("© Sin-Tax, 2024")
             }
-        }
-    }
-}
-
-@Composable
-fun EventItem(
-    event: Event,
-    onClick: () -> Unit
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_calendar_month_24),
-                contentDescription = "Calendar",
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(8.dp),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-
-            // Event Details
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 16.dp)
-            ) {
-                Text(
-                    text = event.title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "",  // TODO
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
-                contentDescription = "View Details",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }
@@ -240,17 +198,4 @@ private fun ProfileField(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    val previewViewModel = remember {
-        ProfileScreenViewModel(initialUser = SampleData.sampleUser)
-    }
-
-    ProfileScreen(
-        viewModel = previewViewModel,
-        {}
-    )
 }

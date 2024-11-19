@@ -1,7 +1,6 @@
 package com.example.queue_it
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -30,6 +29,7 @@ import com.example.queue_it.theme.QueueItTheme
 import com.example.queue_it.ui.add_event.AddEventScreen
 import com.example.queue_it.ui.business_register.RegisterBusinessScreen
 import com.example.queue_it.ui.businessqueue.BusinessEventsScreen
+import com.example.queue_it.ui.customer_register.RegisterCustomerScreen
 import com.example.queue_it.ui.event_details.EventDetailsScreen
 import com.example.queue_it.ui.home.HomeScreen
 import com.example.queue_it.ui.home.HomeViewModel
@@ -37,9 +37,9 @@ import com.example.queue_it.ui.login.LoginScreen
 import com.example.queue_it.ui.notifications.NotificationScreen
 import com.example.queue_it.ui.notifications.NotificationViewModel
 import com.example.queue_it.ui.profile.ProfileScreen
-import com.example.queue_it.ui.profile.ProfileScreenViewModel
 import com.example.queue_it.ui.queue.QueueScreen
 import com.example.queue_it.ui.queue.QueueScreenViewModel
+import com.example.queue_it.ui.queue_details.QueueDetailsScreen
 import com.example.queue_it.ui.signup.SignUpScreen
 import com.example.queue_it.ui.splashscreen.OnboardingScreen
 
@@ -60,7 +60,8 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(navController: NavHostController) {
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    val user = LocalStorage.getUserToken(LocalContext.current.applicationContext).collectAsState("none")
+    val user =
+        LocalStorage.getUserToken(LocalContext.current.applicationContext).collectAsState("none")
 
     Scaffold(
         bottomBar = {
@@ -77,7 +78,7 @@ fun MainScreen(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = if (user.value == "none") Screen.Signup.route else Screen.Home.route,
+            startDestination = if (user.value == "none") Screen.Onboarding.route else Screen.Home.route,
             modifier = Modifier
                 .padding(innerPadding)
                 .background(color = Color.Black)
@@ -102,7 +103,6 @@ fun MainScreen(navController: NavHostController) {
 
             composable(Screen.Profile.route) {
                 ProfileScreen(
-                    viewModel = ProfileScreenViewModel(),
                     navigateToLogin = { navController.navigate(Screen.Login.route) })
             }
 
@@ -119,6 +119,10 @@ fun MainScreen(navController: NavHostController) {
                 AddEventScreen(navigateBack = { navController.popBackStack() })
             }
 
+            composable(Screen.RegisterCustomer.route) {
+                RegisterCustomerScreen({ navController.navigate(Screen.Home.route) })
+            }
+
             composable(
                 route = "event-details/{eventId}",
                 arguments = listOf(navArgument("eventId") { type = NavType.IntType })
@@ -126,14 +130,27 @@ fun MainScreen(navController: NavHostController) {
                 // Extract the integer argument
                 val eventId = backStackEntry.arguments?.getInt("eventId")
                 if (eventId != null) {
-                    EventDetailsScreen(eventId, { navController.popBackStack() })
+                    EventDetailsScreen(
+                        eventId,
+                        { navController.popBackStack() },
+                        { navController.navigate(Screen.getQueueDetailsScreen(it).route) }
+                    )
+                }
+            }
+
+            composable(
+                route = "queue-details/{queueId}",
+                arguments = listOf(navArgument("queueId") {type = NavType.IntType} )
+            ) {
+                val queueId = it.arguments?.getInt("queueId")
+                if (queueId != null) {
+                    QueueDetailsScreen(queueId)
                 }
             }
 
             composable(Screen.BusinessEventScreen.route) {
                 BusinessEventsScreen(
                     navigateToCreateEventScreen = {
-                        Log.d("check", "inside func of event")
                         navController.navigate(Screen.CreateEventScreen.route)
                     },
                     onBack = { navController.popBackStack() },

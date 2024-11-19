@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class BusinessEventsViewModel : ViewModel() {
-    val requestStatus = MutableStateFlow<RequestStatus<List<Event>>>(RequestStatus.Loading)
+    val requestStatus = MutableStateFlow<RequestStatus<List<Event>>>(RequestStatus.Idle)
 
     fun loadEvents(context: Context) {
         viewModelScope.launch {

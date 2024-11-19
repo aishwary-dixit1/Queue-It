@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -53,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W600
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -65,6 +68,7 @@ import com.example.queue_it.model.Queue
 fun EventDetailsScreen(
     eventId: Int,
     navigateBack: () -> Unit,
+    navigateToQueueDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel = viewModel<EventDetailsViewModel>(factory = object : ViewModelProvider.Factory {
@@ -116,7 +120,9 @@ fun EventDetailsScreen(
                         painter = painterResource(id = category.imageRes),
                         contentScale = ContentScale.Crop,
                         contentDescription = category.title,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxHeight(0.35f)
+                            .fillMaxWidth()
                     )
 
                     Box(
@@ -161,7 +167,7 @@ fun EventDetailsScreen(
 
                 LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                     items(queues) {
-                        QueueCard(queue = it)
+                        QueueCard(queue = it, navigateToQueueDetails = navigateToQueueDetails)
                     }
                 }
             }
@@ -249,13 +255,15 @@ fun AddQueueDialog(
 @Composable
 fun QueueCard(
     queue: Queue,
+    navigateToQueueDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .border(1.dp, Color.DarkGray, RoundedCornerShape(16.dp)),
+            .border(1.dp, Color.DarkGray, RoundedCornerShape(12.dp)),
+        onClick = { navigateToQueueDetails(queue.id) }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -269,7 +277,7 @@ fun QueueCard(
                 color = Color(0xFF64B5F6)
             )
 
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp), thickness = 1.5.dp)
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp), thickness = 2.dp)
 
             QueueInfoLine(label = "Current", value = queue.current)
             QueueInfoLine(label = "Total", value = queue.size)
@@ -300,4 +308,13 @@ fun QueueInfoLine(label: String, value: Int) {
             color = Color(0xFF64B5F6)
         )
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun QueueCardPreview() {
+    QueueCard(
+        modifier = Modifier.statusBarsPadding(),
+        queue = Queue(title = "ABCD", maxLimit = 5),
+        navigateToQueueDetails = {})
 }
