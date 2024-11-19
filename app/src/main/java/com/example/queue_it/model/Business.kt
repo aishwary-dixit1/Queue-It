@@ -1,10 +1,11 @@
 package com.example.queue_it.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Business(
-    val id: Int,
-    val businessName: String,
+    val id: Int = -1,
+    val name: String,
     val address: String,
-    val businessCategory: String,
-    val currentOpenEventsId: MutableList<Event?>,
-    val historyOfQueuesId: MutableList<Event?>
-    )
+    val category: EventCategory
+)

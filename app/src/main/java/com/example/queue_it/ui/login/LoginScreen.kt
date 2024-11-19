@@ -1,7 +1,6 @@
 package com.example.queue_it.ui.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,15 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,30 +23,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
-import com.example.queue_it.commonUI.GradientButton
+import com.example.queue_it.common.GradientButton
+import com.example.queue_it.common.LoadingScreen
+import com.example.queue_it.common.RequestStatus
 import com.example.queue_it.navigation.Screen
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: LoginScreenViewModel = LoginScreenViewModel(),
-    onLoginSuccess: (String, String) -> Unit = { _, _ -> } // Handle login action
+    viewModel: LoginScreenViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
-    Surface(
+    val requestStatus = viewModel.requestStatus.collectAsState().value
+
+    Box(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surface
+        contentAlignment = Alignment.Center
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,6 +99,7 @@ fun LoginScreen(
                     unfocusedBorderColor = Color(0xFF64B5F6),
                     focusedTextColor = Color.White
                 ),
+                singleLine = true,
                 shape = RoundedCornerShape(16.dp)
 
             )
@@ -117,6 +118,7 @@ fun LoginScreen(
                     unfocusedBorderColor = Color(0xFF64B5F6),
                     focusedTextColor = Color.White
                 ),
+                singleLine = true,
                 shape = RoundedCornerShape(16.dp)
             )
 
@@ -127,9 +129,7 @@ fun LoginScreen(
                 textSize = 18,
                 cornerRadius = 16.dp,
                 onClick = {
-                    navController.navigate(Screen.Home.route)
-//                viewModel.login()
-//                if (uiState.isLoginSuccessful) onLoginSuccess(uiState.email, uiState.password)
+                    viewModel.login(context, uiState.email, uiState.password)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -147,6 +147,14 @@ fun LoginScreen(
                 Text(it, color = MaterialTheme.colorScheme.error)
             }
         }
+
+        when (requestStatus) {
+            is RequestStatus.Loading -> { LoadingScreen() }
+            is RequestStatus.Error -> { viewModel.setErrorMsg(requestStatus.message) }
+            RequestStatus.Idle -> {}
+            is RequestStatus.Success -> { navController.navigate(Screen.Home.route) }
+        }
+
     }
 }
 
@@ -157,9 +165,6 @@ fun PreviewLoginScreen() {
 
     LoginScreen(
         navController = rememberNavController(),
-        viewModel = viewModel,
-        onLoginSuccess = { username, password ->
-            println("Logged in with Username: $username, Password: $password")
-        }
+        viewModel = viewModel
     )
 }

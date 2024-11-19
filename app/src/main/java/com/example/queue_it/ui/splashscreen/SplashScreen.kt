@@ -1,10 +1,11 @@
 package com.example.queue_it.ui.splashscreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
-import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,18 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.queue_it.R
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.queue_it.R
 import com.example.queue_it.navigation.Screen
-
 
 data class OnboardingPage(
     val animation: Int,
@@ -68,7 +62,7 @@ fun OnboardingScreen(navController: NavController) {
         )
     )
 
-    var currentPage by remember { mutableStateOf(0) }
+    var currentPage by remember { mutableIntStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -126,7 +120,7 @@ fun OnboardingScreen(navController: NavController) {
                         slideInHorizontally(
                             initialOffsetX = { it },
                             animationSpec = tween(500)
-                        ) with slideOutHorizontally(
+                        ) togetherWith slideOutHorizontally(
                             targetOffsetX = { -it },
                             animationSpec = tween(500)
                         )
@@ -134,7 +128,7 @@ fun OnboardingScreen(navController: NavController) {
                         slideInHorizontally(
                             initialOffsetX = { -it },
                             animationSpec = tween(500)
-                        ) with slideOutHorizontally(
+                        ) togetherWith slideOutHorizontally(
                             targetOffsetX = { it },
                             animationSpec = tween(500)
                         )

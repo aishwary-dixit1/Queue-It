@@ -1,21 +1,14 @@
 package com.example.queue_it.model
 
-import android.hardware.biometrics.BiometricManager.Strings
-import android.text.format.DateFormat
-import java.sql.Timestamp
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Event(
-    val id : Int,
-    val openingTime : String?,
-    val time : String,
-    val closingTime : String?,
-    val businessId: Business?,
-    val eventCategory: String,
-    val columnsId: Columns?,
+    val id: Int = -1,
     val title: String,
     val description: String,
-    val avgWaitingTime: String,
-    val date: String,
-    val venue: String,
-    val imageResId: Int
+    val startTime: Long,
+    val endTime: Long,
+    val category: EventCategory,
+    val waitTime: Int,
 )
