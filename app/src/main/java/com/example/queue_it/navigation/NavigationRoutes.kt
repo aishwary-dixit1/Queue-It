@@ -113,6 +113,18 @@ data class Screen(
             title = "Queue Details",
             location = "Queue Details"
         )
+
+        fun getEventListScreen(category: String) = Screen(
+            route = "event-list/$category",
+            title = "Events List",
+            location = "Events List"
+        )
+
+        val Loading = Screen(
+            route = "loading",
+            title = "Loading",
+            location = "Loading"
+        )
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.queue_it.network
 
+import android.R.attr.category
 import android.content.Context
 import android.util.Log
 import com.example.queue_it.local.LocalStorage
@@ -27,6 +28,7 @@ import io.ktor.http.HttpStatusCode.Companion.BadRequest
 import io.ktor.http.HttpStatusCode.Companion.Forbidden
 import io.ktor.http.HttpStatusCode.Companion.NotFound
 import io.ktor.http.HttpStatusCode.Companion.Unauthorized
+import io.ktor.http.append
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
@@ -243,6 +245,35 @@ object NetworkClient {
         val response = client.get(url)
 
         if (response == BadRequest) throw RuntimeException("Bad Request")
+        return response.body()
+    }
+
+    suspend fun searchText(key: String): List<Event> {
+        val url = makePath("/event/search/$key")
+        val response = client.get(url)
+
+        return response.body()
+    }
+
+    suspend fun getRunningEventsForCategory(category: String): List<Event> {
+        val url = makePath("/event/get/$category")
+        val response = client.get(url)
+
+        return response.body()
+    }
+
+    suspend fun getThisBusiness(context: Context): Business {
+        val businessToken = LocalStorage.getBusinessToken(context).first()
+        val url = makePath("/business/this")
+        val response = client.get(url) {
+            headers {
+                append(
+                    HttpHeaders.Authorization,
+                    "Bearer $businessToken"
+                )
+            }
+        }
+
         return response.body()
     }
 

@@ -114,20 +114,6 @@ fun AddEventScreen(
             )
 
             OutlinedTextField(
-                value = venue,
-                onValueChange = { venue = it },
-                label = { Text("Venue") },
-                modifier = Modifier.fillMaxWidth(),
-                isError = showError && venue.isEmpty(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF1976D2),
-                    unfocusedBorderColor = Color(0xFF4A8CB8),
-                    focusedTextColor = Color.White
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-
-            OutlinedTextField(
                 value = waitTime,
                 onValueChange = { waitTime = it },
                 label = { Text("Avg. Wait Time") },

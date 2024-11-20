@@ -20,7 +20,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.queue_it.R
 import com.example.queue_it.common.GradientButton
-import com.example.queue_it.common.GradientFloatingActionButton
 import com.example.queue_it.common.HeaderNav
 import com.example.queue_it.common.ImageCards
 import com.example.queue_it.local.LocalStorage
@@ -49,9 +48,9 @@ fun HomeScreen(
             // Header section with navigation and actions
             HeaderNav(
                 navController = navController,
-                title = "Queue-it",
+                title = "Queue-It",
                 location = "Kanpur",
-                onSearchClick = { /* Handle search click */ },
+                onSearchClick = { viewModel.searchText(it) },
                 onQrScanClick = { /* Handle QR scanning click */ }
             )
 
@@ -70,7 +69,6 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)
-                            .padding(8.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
                 }
@@ -78,7 +76,7 @@ fun HomeScreen(
                 // 'Get Started' button item with gradient styling
                 item {
                     GradientButton(
-                        text = "Get Started",
+                        text = "Your Queues",
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp)
@@ -116,23 +114,25 @@ fun HomeScreen(
                 }
 
                 item {
-                    CategoriesGrid(categories = uiState.categories)
+                    CategoriesGrid(navController, uiState.categories)
                 }
             }
-
         }
 
-        GradientFloatingActionButton(
-            onClick = { /* Handle click */ },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 76.dp)
-        )
+//        GradientFloatingActionButton(
+//            onClick = { /* Handle click */ },
+//            modifier = Modifier
+//                .align(Alignment.BottomEnd)
+//                .padding(end = 16.dp, bottom = 76.dp)
+//        )
     }
 }
 
 @Composable
-fun CategoriesGrid(categories: List<Category>) {
+fun CategoriesGrid(
+    navController: NavHostController,
+    categories: List<Category>
+) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -146,7 +146,8 @@ fun CategoriesGrid(categories: List<Category>) {
                 row.forEach { category ->
                     CategoryCard(
                         category = category,
-                        modifier = Modifier.weight(1f) // Equal weight for balanced layout
+                        modifier = Modifier.weight(1f),
+                        onClick = { navController.navigate(Screen.getEventListScreen(it).route) }
                     )
                 }
             }
@@ -156,7 +157,7 @@ fun CategoriesGrid(categories: List<Category>) {
 
 // Displays individual category information inside a styled card
 @Composable
-fun CategoryCard(category: Category, modifier: Modifier) {
+fun CategoryCard(category: Category, modifier: Modifier, onClick: (String) -> Unit) {
     Column(
         modifier = modifier.padding(4.dp),
         verticalArrangement = Arrangement.Center
@@ -169,7 +170,8 @@ fun CategoryCard(category: Category, modifier: Modifier) {
                 containerColor = Color(0xFFE3F2FD),
                 contentColor = Color(0xFF0D47A1)
             ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            onClick = { onClick(category.name) }
         ) {
             Column(
                 modifier = Modifier

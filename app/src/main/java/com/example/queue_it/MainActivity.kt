@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.queue_it.common.BottomNav
+import com.example.queue_it.common.LoadingScreen
 import com.example.queue_it.local.LocalStorage
 import com.example.queue_it.navigation.Screen
 import com.example.queue_it.theme.QueueItTheme
@@ -31,6 +32,7 @@ import com.example.queue_it.ui.business_register.RegisterBusinessScreen
 import com.example.queue_it.ui.businessqueue.BusinessEventsScreen
 import com.example.queue_it.ui.customer_register.RegisterCustomerScreen
 import com.example.queue_it.ui.event_details.EventDetailsScreen
+import com.example.queue_it.ui.event_list.EventsListScreen
 import com.example.queue_it.ui.home.HomeScreen
 import com.example.queue_it.ui.home.HomeViewModel
 import com.example.queue_it.ui.login.LoginScreen
@@ -61,11 +63,18 @@ fun MainScreen(navController: NavHostController) {
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     val user =
-        LocalStorage.getUserToken(LocalContext.current.applicationContext).collectAsState("none")
+        LocalStorage.getUserToken(LocalContext.current.applicationContext).collectAsState("default")
+    val start = when (user.value) {
+        "default" -> Screen.Loading.route
+        "none" -> Screen.Onboarding.route
+        else -> Screen.Home.route
+    }
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.Onboarding.route && currentRoute != Screen.Signup.route && currentRoute != Screen.Login.route) {
+            if (currentRoute != Screen.Onboarding.route
+                && currentRoute != Screen.Signup.route
+                && currentRoute != Screen.Login.route && currentRoute != Screen.Loading.route) {
                 Box(
                     modifier = Modifier
                         .navigationBarsPadding()
@@ -78,7 +87,7 @@ fun MainScreen(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = if (user.value == "none") Screen.Onboarding.route else Screen.Home.route,
+            startDestination = start,
             modifier = Modifier
                 .padding(innerPadding)
                 .background(color = Color.Black)
@@ -123,6 +132,10 @@ fun MainScreen(navController: NavHostController) {
                 RegisterCustomerScreen({ navController.navigate(Screen.Home.route) })
             }
 
+            composable(Screen.Loading.route) {
+                LoadingScreen()
+            }
+
             composable(
                 route = "event-details/{eventId}",
                 arguments = listOf(navArgument("eventId") { type = NavType.IntType })
@@ -145,6 +158,16 @@ fun MainScreen(navController: NavHostController) {
                 val queueId = it.arguments?.getInt("queueId")
                 if (queueId != null) {
                     QueueDetailsScreen(queueId)
+                }
+            }
+
+            composable(
+                route = "event-list/{category}",
+                arguments = listOf(navArgument("category") { type = NavType.StringType} )
+            ) {
+                val category = it.arguments?.getString("category")
+                if (category != null) {
+                    EventsListScreen(category, { navController.popBackStack() })
                 }
             }
 

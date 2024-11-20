@@ -1,10 +1,13 @@
 package com.example.queue_it.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.queue_it.R
 import com.example.queue_it.model.Category
+import com.example.queue_it.network.NetworkClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 // Data class representing the state of the Home Screen UI
 data class HomeScreenState(
@@ -32,7 +35,8 @@ class HomeViewModel : ViewModel() {
             Category.ECOMMERCE,
             Category.EDUCATION,
             Category.MEDICAL,
-            Category.SPORTS
+            Category.SPORTS,
+            Category.OTHER
         )
 
         // Update the UI state with the loaded categories and set loading to false
@@ -40,5 +44,11 @@ class HomeViewModel : ViewModel() {
             categories = categories,
             isLoading = false
         )
+    }
+
+    fun searchText(key: String) {
+        viewModelScope.launch {
+            val result = NetworkClient.searchText(key)
+        }
     }
 }
