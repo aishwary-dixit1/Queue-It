@@ -1,4 +1,4 @@
-package com.example.queue_it.commonUI
+package com.example.queue_it.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +16,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,12 +30,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.navigation.Screen
 
-
 @Composable
 fun BottomNav(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+
+    var homeSelected by remember {
+        mutableStateOf(true)
+    }
+    var profileSelected by remember { mutableStateOf(false) }
+
+    var queuesSelected by remember { mutableStateOf(false) }
+
     NavigationBar(
         modifier = modifier
             .fillMaxWidth()
@@ -51,8 +62,13 @@ fun BottomNav(
                 )
             },
             label = { Text("Home") },
-            selected = navController.currentDestination?.route == Screen.Home.route,
-            onClick = { navController.navigate(Screen.Home.route) },
+            selected = homeSelected,
+            onClick = {
+                navController.navigate(Screen.Home.route)
+                homeSelected = true
+                profileSelected = false
+                queuesSelected = false
+            },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White,
                 selectedTextColor = Color(0xFF42A5F5),
@@ -71,14 +87,20 @@ fun BottomNav(
                 )
             },
             label = { Text("Queues") },
-            selected = navController.currentDestination?.route == Screen.Queues.route,
-            onClick = { navController.navigate(Screen.Queues.route) },
+            selected = queuesSelected,
+            onClick = {
+                navController.navigate(Screen.Queues.route)
+                homeSelected = false
+                profileSelected = false
+                queuesSelected = true
+            },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White,
                 selectedTextColor = Color(0xFF42A5F5),
                 indicatorColor = Color(0xFF1E88E5)
             )
         )
+
         // Profile Navigation Item
         NavigationBarItem(
             icon = {
@@ -89,8 +111,13 @@ fun BottomNav(
                 )
             },
             label = { Text("Profile") },
-            selected = navController.currentDestination?.route == Screen.Profile.route,
-            onClick = { navController.navigate(Screen.Profile.route) },
+            selected = profileSelected,
+            onClick = {
+                navController.navigate(Screen.Profile.route)
+                homeSelected = false
+                profileSelected = true
+                queuesSelected = false
+            },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White,
                 selectedTextColor = Color(0xFF42A5F5),
@@ -102,9 +129,10 @@ fun BottomNav(
 
 @Preview(showBackground = true)
 @Composable
-fun BottomNavPreview(){
+fun BottomNavPreview() {
     val navController = rememberNavController()
-    BottomNav(navController = navController,
+    BottomNav(
+        navController = navController,
         modifier = Modifier
-        )
+    )
 }

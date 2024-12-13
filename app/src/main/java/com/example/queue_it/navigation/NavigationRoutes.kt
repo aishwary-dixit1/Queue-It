@@ -1,7 +1,9 @@
 package com.example.queue_it.navigation
 
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Screen(
     val route: String,
     val title: String,
@@ -29,11 +31,6 @@ data class Screen(
             route = "home",
             title = "Home",
             location = "Home"
-        )
-        val BusinessQueue = Screen(
-            route = "businessqueue",
-            title = "BusinessQueue",
-            location = "Home > BusinessQueue"
         )
         val Categories = Screen(
             route = "categories",
@@ -79,6 +76,54 @@ data class Screen(
             route = "notification",
             title = "Notification",
             location = "Notification"
+        )
+
+        val RegisterBusiness = Screen(
+            route = "register business",
+            title = "Register Business",
+            location = "Register Business"
+        )
+
+        val BusinessEventScreen = Screen(
+            route = "business events",
+            title = "Business Events",
+            location = "Business Events"
+        )
+
+        val CreateEventScreen = Screen(
+            route = "create event",
+            title = "Create Event",
+            location = "Create Event"
+        )
+
+        fun getEventDetailsScreen(eventId: Int) = Screen(
+            route = "event-details/$eventId",
+            title = "Event Details",
+            location = "Event Details"
+        )
+
+        val RegisterCustomer = Screen(
+            route = "register customer",
+            title = "Register Customer",
+            location = "Register Customer"
+        )
+
+        fun getQueueDetailsScreen(queueId: Int) = Screen(
+            route = "queue-details/$queueId",
+            title = "Queue Details",
+            location = "Queue Details"
+        )
+
+        fun getEventListScreen(category: String) = Screen(
+            route = "event-list/$category",
+            title = "Events List",
+            location = "Events List"
+        )
+
+        val Loading = Screen(
+            route = "loading",
+            title = "Loading",
+            location = "Loading"
         )
     }
 }

@@ -1,10 +1,13 @@
 package com.example.queue_it.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.queue_it.R
 import com.example.queue_it.model.Category
+import com.example.queue_it.network.NetworkClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 // Data class representing the state of the Home Screen UI
 data class HomeScreenState(
@@ -28,12 +31,12 @@ class HomeViewModel : ViewModel() {
     private fun loadCategories() {
         // List of predefined categories with IDs, names, and drawable resources
         val categories = listOf(
-            Category(1, "Doctor", R.drawable.hospital),
-            Category(2, "Concert", R.drawable.concert_queue_image),
-            Category(3, "Restaurant", R.drawable.restaurant_queue_image),
-            Category(4, "Theme Park", R.drawable.theme_queue_image),
-            Category(5, "Conference", R.drawable.concert_queue_image),
-            Category(6, "Sports", R.drawable.sports)
+            Category.ENTERTAINMENT,
+            Category.ECOMMERCE,
+            Category.EDUCATION,
+            Category.MEDICAL,
+            Category.SPORTS,
+            Category.OTHER
         )
 
         // Update the UI state with the loaded categories and set loading to false
@@ -41,5 +44,11 @@ class HomeViewModel : ViewModel() {
             categories = categories,
             isLoading = false
         )
+    }
+
+    fun searchText(key: String) {
+        viewModelScope.launch {
+            val result = NetworkClient.searchText(key)
+        }
     }
 }
